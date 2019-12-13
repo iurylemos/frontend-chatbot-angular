@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-sm bg-info">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">
+            Chatbot
+         </a>
+      </li>
+      <li class="nav-item">
+           <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#dlDocumentos">
+            Capturas
+         </a>
+      </li>
+      <li class="nav-item">
+           <a class="nav-link text-white" href="/login">
+            Sair
+         </a>
+      </li>
+    </ul>
+  </nav>
+  <br>
+  <div class="container">
+        <h2 align="center">Chatbot com JavaScript</h2>
+        <br>
+        <table width="100%" cellpadding="20px">
+            <tr>
+                <td>
+                   <div align="center" style="height: 300px;">
+                       <input type="hidden" id="code_user">
+                       <input type="hidden" id="code_current" value="0">
+                       <select class="form-control" id="code_relation">
+                           <option value="0">Relação com Resposta Anterior</option>
+                       </select>
+                       <br>
+                       <input type="text" class="form-control" id="input" placeholder="Pergunta"><br>
+                       <textarea cols="5" class="form-control" id="output" placeholder="Resposta" spellcheck="false"></textarea><br>
+                       <button class="btn btn-lg btn-info" onclick="novo()">NOVO</button>
+                       <button class="btn btn-lg btn-info" onclick="salvar()">SALVAR</button>
+                       <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
+                   </div>	     				
+                </td>
+                <td>
+                    <div style="overflow-y:scroll; height: 300px;">
+                       <table class="table table-striped" width="100%">
+                           <tbody id="linhas">
+
+                           </tbody>
+                       </table>   
+                   </div>  				
+                </td>
+            </tr>
+        </table>
+  </div>

@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-sm bg-info">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                LOGIN
+            </a>
+        </li>
+    </ul>
+</nav>
+<br>
+<div class="container">
+    <h2 align="center">LOGIN</h2>
+    <br>
+    <center>
+        <div align="center" style="width: 30%;">
+            <form class="form-signin" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <input type="text" class="form-control" id="user_name" formControlName="user_name" placeholder="Nome de Usuário"><br>
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Senha"><br>
+                <br>
+                <button class="btn btn-lg btn-info" type="submit">Entrar</button>
+            </form>
+        </div>
+    </center>
+</div>
