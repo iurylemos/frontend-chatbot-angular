@@ -54,7 +54,13 @@ export class AuthService {
     // let headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
     return this.http.post(`${URL_API}/user/search`, objJSON, { headers: headers }).pipe(
-      map((resposta: any) => resposta)
+      map((resposta: any) => {
+        if(resposta !== null) {
+          localStorage.setItem('currentUser', JSON.stringify(resposta));
+          this.currentUserSubject.next(resposta);
+        }
+        return resposta
+      })
     );
   }
 
@@ -64,7 +70,6 @@ export class AuthService {
     localStorage.clear()
     // this.currentUserSubject = new BehaviorSubject<Cliente>(null);
     this.currentUserSubject.next(null);
-    window.location.reload()
   }
 
   public register(cliente: FormBuilder): Observable<any> {

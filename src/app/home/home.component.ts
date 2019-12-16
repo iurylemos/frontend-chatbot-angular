@@ -58,6 +58,11 @@ export class HomeComponent implements OnInit {
 
   }
 
+  logout() {
+    this.authenticationService.logout()
+    this.router.navigate(['login'])
+  }
+
   selecionar(_code_current = -1) {
     const http = new XMLHttpRequest();
 	   			http.open('POST', '/chatbot/find', true);

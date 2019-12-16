@@ -40,12 +40,11 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.login(this.f.user_name.value, this.f.password.value).subscribe((data) => {
       console.log(data)
-      // this.customer.emit(data[0])
-      this.router.navigate([''])
+      if(data !== null) {
+        this.router.navigate([''])
+      }
     }, (error) => {
-      // this.alertService.error(error);
       console.log(error)
-      // this.loading = false;
     })
 
 
