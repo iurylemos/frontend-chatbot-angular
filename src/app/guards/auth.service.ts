@@ -20,9 +20,9 @@ export class AuthService {
     this.currentUserSubject.subscribe((data) => {
       console.log('DADOS: ', data)
     })
-    console.log(this.currentUserSubject.next)
-    console.log(this.currentUserSubject.getValue())
-    console.log(this.currentUserSubject.value)
+    // console.log(this.currentUserSubject.next)
+    // console.log(this.currentUserSubject.getValue())
+    // console.log(this.currentUserSubject.value)
 
 
     return this.currentUserSubject.value;

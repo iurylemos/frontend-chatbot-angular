@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   chatbotForm: FormGroup;
   code_current: string = '';
   code_relation: string = '';
+  listaRespostas: Array<any> = []
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -23,6 +24,11 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.iniciarForm();
+    this.listar();
+  }
+
+  iniciarForm() {
     this.chatbotForm = this._formBuilder.group({
       input: ['', [Validators.required]],
       output: ['', [Validators.required]],
@@ -33,6 +39,22 @@ export class HomeComponent implements OnInit {
 
   listar() {
     console.log('entrou no listar()')
+    const code_user = this.authenticationService.currentUserValue.code_user
+    const activate = this.authenticationService.currentUserValue.activate
+
+    let objJSON = {
+      "code_user": code_user,
+      "activate": activate
+    }
+
+    if(code_user !== 0) {
+      this.chatbotService.findChatbot(objJSON).subscribe((data) => {
+        console.log(data)
+        this.listaRespostas = data
+      })
+    }
+
+    
   }
 
   logout() {
@@ -41,12 +63,16 @@ export class HomeComponent implements OnInit {
   }
 
   selecionar(_code_current = -1) {
-    const http = new XMLHttpRequest();
-    http.open('POST', '/chatbot/find', true);
-    const code_current = document.getElementById('code_current');
-    const code_relation = document.getElementById('code_relation');
-    const input = document.getElementById('input');
-    const output = document.getElementById('output');
+    console.log(_code_current)
+    const activate = this.authenticationService.currentUserValue.activate
+    let objJSON = {
+      "code_current": _code_current,
+      "activate": activate
+    }
+    this.chatbotService.findChatbot(objJSON).subscribe((data) => {
+      console.log(data)
+      this.listaRespostas = data
+    })
   }
 
   get f() { return this.chatbotForm.controls; }
@@ -60,21 +86,11 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    let params = '';
-    if (code_user > 0) params += `code_user=${code_user}&`;
-    if (this.code_current !== '') params += `code_current=${this.code_current}&`;
-    if (this.code_relation !== '') params += `code_relation=${this.code_relation}&`;
-    if (this.f.input.value) params += `input=${this.f.input.value}&`;
-    if (this.f.output.value) params += `output=${this.f.output.value}&`;
-    // if (activate) params += `output=${this.f.output}&`;
-    params += '#';
-    params = params.replace('&#', '');
-    console.log('params',params)
-
     let objJSON = {
       "code_user": code_user,
-      "input": this.f.output.value,
-      "output": this.f.input.value
+      "activate": activate,
+      "input": this.f.input.value,
+      "output": this.f.output.value
     }
 
     if (this.code_current === '') {
@@ -85,5 +101,13 @@ export class HomeComponent implements OnInit {
     }else {
       console.log('entrou no else')
     }
+  }
+
+  listarDocumentos() {
+
+  }
+
+  novo() {
+    this.iniciarForm()
   }
 }

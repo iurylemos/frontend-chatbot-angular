@@ -10,14 +10,14 @@ export class ChatbotService {
 
     constructor(private http: HttpClient) { }
 
-    public findChatbot(find: any): Observable<any> {
-        // 'Content-Type', 'application/x-www-form-urlencoded'
-        // console.log(email)  
-        // console.log(`${URL_API}/cliente?email=${email}&password=${password}`)
-        return this.http.get<Cliente>(`${URL_API}/chatbot/find`)
-            .pipe(map(user => {
-                return user;
-            }));
+    public findChatbot(objJSON: any): Observable<any> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(`${URL_API}/chatbot/find`, objJSON, { headers: headers }).pipe(
+            map((resposta: any) => {
+                return resposta
+            })
+        );
     }
 
     public insertData(objJSON: any): Observable<any> {
@@ -25,6 +25,17 @@ export class ChatbotService {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
         return this.http.post(`${URL_API}/chatbot/insert`, objJSON, { headers: headers }).pipe(
+            map((resposta: any) => {
+                return resposta
+            })
+        );
+    }
+
+    public updateData(objJSON: any): Observable<any> {
+        console.log(objJSON)
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(`${URL_API}/chatbot/update`, objJSON, { headers: headers }).pipe(
             map((resposta: any) => {
                 return resposta
             })

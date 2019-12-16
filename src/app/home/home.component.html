@@ -34,8 +34,8 @@
                             <br>
                             <input type="text" class="form-control" formControlName="input" placeholder="Pergunta"><br>
                             <textarea cols="5" class="form-control" formControlName="output" placeholder="Resposta" spellcheck="false"></textarea><br>
-                            <button class="btn btn-lg btn-info" (click)="novo()">NOVO</button>
-                            <button class="btn btn-lg btn-info" type="submit" (click)="salvar()">SALVAR</button>
+                            <button style="margin-right: 2px;" class="btn btn-lg btn-info" (click)="novo()">NOVO</button>
+                            <button style="margin-right: 1px;"  class="btn btn-lg btn-info" type="submit" (click)="salvar()">SALVAR</button>
                             <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
                         </div>	
                     </form>     				
@@ -44,11 +44,80 @@
                     <div style="overflow-y:scroll; height: 300px;">
                        <table class="table table-striped" width="100%">
                            <tbody id="linhas">
-
+                                <option value="0">Relação com Resposta Anterior</option>
+                                <tr *ngFor="let item of listaRespostas">
+                                    <td width="400px">{{ item.input }}</td>
+                                    <td align="center">
+                                        <button class="btn btn-info"
+                                        (click)="selecionar(item.code_current)">
+                                            Selecionar
+                                        </button>
+                                    </td>
+                                </tr>
                            </tbody>
                        </table>   
                    </div>  				
                 </td>
             </tr>
         </table>
+
+        <!-- DIVISÃO -->
+        <div id="dlDeletar" class="modal" role="dialog">
+            <div class="modal-dialog">
+  
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">DELEÇÃO</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p>Confirma Deleção?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deletar()">DELETAR</button>
+                </div>
+              </div>
+  
+            </div>
+         </div>
+  
+         <div id="dlDocumentos" class="modal" role="dialog">
+            <div class="modal-dialog">
+  
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Informações Capturadas</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                   <div style="overflow-y:scroll; height: 300px;">
+                      <table class="table table-striped" width="100%">
+                          <thead>
+                              <tr>
+                                  <th>Nome</th>
+                                  <th>Idade</th>
+                                  <th>Email</th>
+                                  <th>Celular</th>
+                                  <th>Telefone</th>
+                                  <th>CEP</th>
+                                  <th>Endereço</th>
+                                  <th>Bairro</th>
+                                  <th>Nº</th>
+                                  <th>CPF</th>
+                                  <th>CNPJ</th>
+                              </tr>
+                          </thead>
+                          <tbody id="documentos">
+                          </tbody>
+                      </table>   
+                  </div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+  
+            </div>
+         </div>
   </div>
