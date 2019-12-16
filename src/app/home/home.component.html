@@ -24,19 +24,21 @@
         <table width="100%" cellpadding="20px">
             <tr>
                 <td>
-                   <div align="center" style="height: 300px;">
-                       <input type="hidden" id="code_user">
-                       <input type="hidden" id="code_current" value="0">
-                       <select class="form-control" id="code_relation">
-                           <option value="0">Relação com Resposta Anterior</option>
-                       </select>
-                       <br>
-                       <input type="text" class="form-control" id="input" placeholder="Pergunta"><br>
-                       <textarea cols="5" class="form-control" id="output" placeholder="Resposta" spellcheck="false"></textarea><br>
-                       <button class="btn btn-lg btn-info" onclick="novo()">NOVO</button>
-                       <button class="btn btn-lg btn-info" onclick="salvar()">SALVAR</button>
-                       <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
-                   </div>	     				
+                    <form name="chatbotForm" [formGroup]="chatbotForm">
+                        <div align="center" style="height: 300px;">
+                            <input type="hidden" id="code_user">
+                            <input type="hidden" id="code_current" value="0">
+                            <select class="form-control" id="code_relation">
+                                <option value="0">Relação com Resposta Anterior</option>
+                            </select>
+                            <br>
+                            <input type="text" class="form-control" formControlName="input" placeholder="Pergunta"><br>
+                            <textarea cols="5" class="form-control" formControlName="output" placeholder="Resposta" spellcheck="false"></textarea><br>
+                            <button class="btn btn-lg btn-info" (click)="novo()">NOVO</button>
+                            <button class="btn btn-lg btn-info" type="submit" (click)="salvar()">SALVAR</button>
+                            <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
+                        </div>	
+                    </form>     				
                 </td>
                 <td>
                     <div style="overflow-y:scroll; height: 300px;">

@@ -11,6 +11,7 @@ import { JwtInterceptor } from './guards/jwt.interceptor';
 import { ErrorInterceptor } from './guards/error.interceptor';
 import { registerLocaleData } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChatbotService } from './guards/chatbot.service';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     AuthService,
+    ChatbotService,
     { provide: LOCALE_ID, useValue: 'pt' } ,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
