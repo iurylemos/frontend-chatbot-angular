@@ -1,12 +1,12 @@
 import { Cliente } from '../shared/cliente.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_API } from '../app.api';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, retry } from 'rxjs/operators';
 import { FormBuilder } from '@angular/forms';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private currentUserSubject: BehaviorSubject<Cliente>;
   public currentUser: Observable<Cliente>;
@@ -18,28 +18,44 @@ export class AuthService {
 
   public get currentUserValue(): Cliente {
     this.currentUserSubject.subscribe((data) => {
-      console.log('DADOS: ',data)
+      console.log('DADOS: ', data)
     })
     console.log(this.currentUserSubject.next)
     console.log(this.currentUserSubject.getValue())
     console.log(this.currentUserSubject.value)
-    
+
 
     return this.currentUserSubject.value;
   }
 
-  public login(email: any, password: any): Observable<any> {
+  public login(user_name: any, password: any): Observable<any> {
     console.log('entrou aqui no LOGIN do AUTH SERVICE')
     // console.log(email)  
+    ///user/search
     // console.log(`${URL_API}/cliente?email=${email}&password=${password}`)
-    return this.http.get<Cliente>(`${URL_API}/cliente?email=${email}&password=${password}`)
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        window.location.reload()
-        return user;
-      }));
+    // return this.http.get<Cliente>(`${URL_API}/cliente?email=${email}&password=${password}`)
+    //   .pipe(map(user => {
+    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //     localStorage.setItem('currentUser', JSON.stringify(user));
+    //     this.currentUserSubject.next(user);
+    //     window.location.reload()
+    //     return user;
+    //   }));
+
+    let objJSON = {
+      "user_name": user_name,
+      "password": password
+    }
+
+    console.log(objJSON)
+    // header("Access-Control-Allow-Origin: *");
+    // header("Access-Control-Allow-Headers: Content-Type");
+    let headers = new HttpHeaders({'Content-Type':'application/json'}); 
+    // let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+
+    return this.http.post(`${URL_API}/user/search`, objJSON, { headers: headers }).pipe(
+      map((resposta: any) => resposta)
+    );
   }
 
   public logout() {
