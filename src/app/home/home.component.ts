@@ -62,17 +62,15 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['login'])
   }
 
-  selecionar(_code_current = -1) {
-    console.log(_code_current)
-    const activate = this.authenticationService.currentUserValue.activate
-    let objJSON = {
-      "code_current": _code_current,
-      "activate": activate
-    }
-    this.chatbotService.findChatbot(objJSON).subscribe((data) => {
-      console.log(data)
-      this.listaRespostas = data
-    })
+  selecionar(item) {
+    console.log(item.code_current)
+
+    this.code_current = item.code_current
+
+    this.chatbotForm = this._formBuilder.group({
+      input: [`${item.input}`, [Validators.required]],
+      output: [`${item.output}`, [Validators.required]],
+    });
   }
 
   get f() { return this.chatbotForm.controls; }
@@ -86,19 +84,36 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    let objJSON = {
-      "code_user": code_user,
-      "activate": activate,
-      "input": this.f.input.value,
-      "output": this.f.output.value
-    }
+    
 
     if (this.code_current === '') {
+
+      let objJSON = {
+        "code_user": code_user,
+        "activate": activate,
+        "input": this.f.input.value,
+        "output": this.f.output.value
+      }
+
       this.chatbotService.insertData(objJSON).subscribe((resposta) => {
         console.log(resposta)
         this.listar()
       })
     }else {
+
+      let objJSON = {
+        "code_current": this.code_current,
+        "code_user": code_user,
+        "activate": activate,
+        "input": this.f.input.value,
+        "output": this.f.output.value
+      }
+
+      this.chatbotService.updateData(objJSON).subscribe((resposta) => {
+        console.log(resposta)
+        this.listar()
+      })
+
       console.log('entrou no else')
     }
   }
@@ -109,5 +124,33 @@ export class HomeComponent implements OnInit {
 
   novo() {
     this.iniciarForm()
+  }
+
+  deletar() {
+
+    const code_user = this.authenticationService.currentUserValue.code_user
+    const activate = this.authenticationService.currentUserValue.activate
+
+    if (this.chatbotForm.invalid) {
+      return;
+    }
+
+    if (this.code_current !== '') {
+      let objJSON = {
+        "code_current": this.code_current,
+        "code_user": code_user,
+        "activate": activate,
+        "input": this.f.input.value,
+        "output": this.f.output.value
+      }
+
+      this.chatbotService.deleteData(objJSON).subscribe((resposta) => {
+        console.log(resposta)
+        this.listar()
+        this.code_current = ''
+        this.iniciarForm()
+      })
+    }
+
   }
 }
