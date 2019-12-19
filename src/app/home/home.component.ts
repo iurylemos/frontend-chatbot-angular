@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   code_current: string = '';
   code_relation: string = '';
   listaRespostas: Array<any> = []
+  listDocuments: Array<any> = []
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.iniciarForm();
     this.listar();
+    this.listarDocumentos();
   }
 
   iniciarForm() {
@@ -119,7 +121,24 @@ export class HomeComponent implements OnInit {
   }
 
   listarDocumentos() {
+    console.log('entrou no listar()')
+    const code_user = this.authenticationService.currentUserValue.code_user
+    const activate = this.authenticationService.currentUserValue.activate
 
+    let objJSON = {
+      "code_user": code_user,
+      "activate": activate
+    }
+
+    if(code_user !== 0) {
+      this.chatbotService.findDocuments(objJSON).subscribe((data) => {
+        console.log(data)
+        this.listDocuments = data
+        console.log(this.listDocuments)
+      })
+    }
+
+    
   }
 
   novo() {

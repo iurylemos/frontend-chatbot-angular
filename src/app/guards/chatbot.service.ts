@@ -53,5 +53,16 @@ export class ChatbotService {
         );
     }
 
+    public findDocuments(objJSON: any): Observable<any> {
+        console.log(objJSON)
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+        return this.http.post(`${URL_API}/documents/find`, objJSON, { headers: headers }).pipe(
+            map((resposta: any) => {
+                return resposta
+            })
+        );
+    }
+
 
 }

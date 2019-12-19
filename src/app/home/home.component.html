@@ -81,6 +81,7 @@
   
             </div>
          </div>
+         <!-- DIVISÃO PARA DOCUMENTOS USUÁRIO -->
   
          <div id="dlDocumentos" class="modal" role="dialog">
             <div class="modal-dialog">
@@ -109,6 +110,19 @@
                               </tr>
                           </thead>
                           <tbody id="documentos">
+                            <tr *ngFor="let item of listDocuments">
+                              <td nowrap="true">{{ item.nome }}</td>
+                              <td>{{ item.idade }}</td>
+                              <td>{{ item.email }}</td>
+                              <td>{{ item.celular }}</td>
+                              <td>{{ item.telefone }}</td>
+                              <td>{{ item.cep }}</td>
+                              <td nowrap="true">{{ item.endereco }}</td>
+                              <td>{{ item.bairro }}</td>
+                              <td>{{ item.numero }}</td>
+                              <td>{{ item.cpf }}</td>
+                              <td>{{ item.cnpj }}</td>
+                            </tr>
                           </tbody>
                       </table>   
                   </div> 
