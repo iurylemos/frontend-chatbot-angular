@@ -23,11 +23,11 @@
                     <form name="adminForm" [formGroup]="adminForm">
                       <input type="hidden" id="code_user">
                       <label class="radio-inline">
-                          <input type="radio" value="false" name="activate" formControlName="activateF">
+                          <input type="radio" formControlName="activateF">
                           Desativado
                       </label>
                       <label class="radio-inline">
-                          <input type="radio" value="true" name="activate" formControlName="activateT">
+                          <input type="radio" formControlName="activateT">
                           Ativado
                       </label>
                       <input type="text" class="form-control" formControlName="full_name" placeholder="Nome completo"><br>
@@ -49,7 +49,7 @@
                               <td align="center">
                                 <button class="btn btn-info"
                                 (click)="selecionar(item)">
-                                  selecionar
+                                  Selecionar
                                 </button>
                               </td>
                             </tr>

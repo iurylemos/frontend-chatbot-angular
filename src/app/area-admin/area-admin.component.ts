@@ -16,6 +16,8 @@ export class AreaAdminComponent implements OnInit {
   code_current: string = '';
   code_relation: string = '';
   code_user: string = ''
+  noactivate: number = 0
+  activate: number = 0
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -35,8 +37,8 @@ export class AreaAdminComponent implements OnInit {
       user_name: ['', [Validators.required]],
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      activateF: ['', [Validators.required]],
-      activateT: ['', [Validators.required]],
+      activateF: [''],
+      activateT: [''],
     });
     console.log(this.adminForm.value)
     console.log(this.authenticationService.currentUserValue)
@@ -73,11 +75,19 @@ export class AreaAdminComponent implements OnInit {
 
     this.code_user = item.code_user
 
+    if(item.activate > 0) {
+      this.activate = item.activate
+    }else {
+      this.noactivate = item.activate
+    }
+
     this.adminForm = this._formBuilder.group({
       full_name: [`${item.full_name}`, [Validators.required]],
       user_name: [`${item.user_name}`, [Validators.required]],
       email: [`${item.email}`, [Validators.required]],
       password: [`${item.password}`, [Validators.required]],
+      activateF: [`${this.noactivate}`],
+      activateT: [`${this.activate}`]
     });
   }
 

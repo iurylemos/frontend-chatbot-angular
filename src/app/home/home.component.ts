@@ -12,6 +12,7 @@ import { ChatbotService } from '../guards/chatbot.service';
 export class HomeComponent implements OnInit {
 
   chatbotForm: FormGroup;
+  isAdmin: boolean = false
   code_current: string = '';
   code_relation: string = '';
   listaRespostas: Array<any> = []
@@ -35,6 +36,9 @@ export class HomeComponent implements OnInit {
       input: ['', [Validators.required]],
       output: ['', [Validators.required]],
     });
+    if(this.authenticationService.currentUserValue.isAdmin === true) {
+      this.isAdmin = this.authenticationService.currentUserValue.isAdmin
+    }
     console.log(this.chatbotForm.value)
     console.log(this.authenticationService.currentUserValue)
   }

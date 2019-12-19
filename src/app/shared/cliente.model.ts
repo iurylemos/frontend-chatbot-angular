@@ -7,4 +7,5 @@ export class Cliente {
     public user_name: string
     public _id: string
     public activate: number
+    public isAdmin: boolean = false
 }
