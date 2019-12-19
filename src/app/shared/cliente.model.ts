@@ -6,5 +6,5 @@ export class Cliente {
     public code_user: number
     public user_name: string
     public _id: string
-    public activate: boolean
+    public activate: number
 }

@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
     }
 
     if(code_user !== 0) {
-      this.chatbotService.findDocuments(objJSON).subscribe((data) => {
+      this.chatbotService.findDocuments(objJSON).subscribe((data) => {  
         console.log(data)
         this.listDocuments = data
         console.log(this.listDocuments)

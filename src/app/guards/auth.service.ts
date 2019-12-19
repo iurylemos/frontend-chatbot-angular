@@ -30,18 +30,6 @@ export class AuthService {
 
   public login(user_name: any, password: any): Observable<any> {
     console.log('entrou aqui no LOGIN do AUTH SERVICE')
-    // console.log(email)  
-    ///user/search
-    // console.log(`${URL_API}/cliente?email=${email}&password=${password}`)
-    // return this.http.get<Cliente>(`${URL_API}/cliente?email=${email}&password=${password}`)
-    //   .pipe(map(user => {
-    //     // store user details and jwt token in local storage to keep user logged in between page refreshes
-    //     localStorage.setItem('currentUser', JSON.stringify(user));
-    //     this.currentUserSubject.next(user);
-    //     window.location.reload()
-    //     return user;
-    //   }));
-
     let objJSON = {
       "user_name": user_name,
       "password": password
@@ -90,19 +78,21 @@ export class AuthService {
   }
 
 
-  public findChatbot(find: any): Observable<any> {
-    console.log('entrou aqui no LOGIN do AUTH SERVICE')
-    // 'Content-Type', 'application/x-www-form-urlencoded'
-    // console.log(email)  
-    // console.log(`${URL_API}/cliente?email=${email}&password=${password}`)
-    return this.http.get<Cliente>(`${URL_API}/chatbot/find`)
-      .pipe(map(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        window.location.reload()
-        return user;
-      }));
+  public loginAdmin(cliente: FormBuilder): Observable<any> {
+    console.log('entrou', cliente)
+    //console.log(pedido)
+    //Post é um observable de uma resposta
+    //O conteudo que vou enviar é o pedido
+    //E vou enviar pelo body 
+    //Com o stringify que pega esse objeto literal
+    //E retrona uma string que o representa.
+    //E por fim, preciso setar no request
+    //As opções da nossa requisição;
+    //Mais especificamente os headers da minha requisição
+
+    return this.http.post(`${URL_API}/admin/search`, cliente).pipe(
+      map((resposta: any) => resposta)
+    );
   }
 
 

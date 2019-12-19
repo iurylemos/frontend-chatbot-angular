@@ -12,12 +12,15 @@ import { ErrorInterceptor } from './guards/error.interceptor';
 import { registerLocaleData } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatbotService } from './guards/chatbot.service';
+import { AreaAdminComponent } from './area-admin/area-admin.component';
+import { AdminService } from './guards/admin.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    AreaAdminComponent
   ],
   imports: [
     HttpClientModule,
@@ -28,6 +31,7 @@ import { ChatbotService } from './guards/chatbot.service';
   providers: [
     AuthService,
     ChatbotService,
+    AdminService,
     { provide: LOCALE_ID, useValue: 'pt' } ,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
