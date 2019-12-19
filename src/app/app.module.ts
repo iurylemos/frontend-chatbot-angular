@@ -14,13 +14,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChatbotService } from './guards/chatbot.service';
 import { AreaAdminComponent } from './area-admin/area-admin.component';
 import { AdminService } from './guards/admin.service';
+import { JanelaChatbotComponent } from './janela-chatbot/janela-chatbot.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    AreaAdminComponent
+    AreaAdminComponent,
+    JanelaChatbotComponent
   ],
   imports: [
     HttpClientModule,

@@ -64,5 +64,12 @@ export class ChatbotService {
         );
     }
 
+    public conversarChatbot(codeUser: number, question: string ) : Promise<any[]> {
+        return this.http.get<any[]>(`${URL_API}/chatbot/question?code_user=${codeUser}&input=${question}`)
+          .toPromise()
+          .then((o => {
+              return o
+        }))
+    }
 
 }
