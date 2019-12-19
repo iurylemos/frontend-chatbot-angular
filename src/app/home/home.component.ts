@@ -145,6 +145,10 @@ export class HomeComponent implements OnInit {
     
   }
 
+  abrirChatbot() {
+    window.open('http://localhost:4200/chatbot', '', 'width=410, height=450')
+  }
+
   novo() {
     this.iniciarForm()
   }

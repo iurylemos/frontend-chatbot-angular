@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ChatbotService } from '../guards/chatbot.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../guards/auth.service';
@@ -32,7 +32,7 @@ export class JanelaChatbotComponent implements OnInit {
 
   send(event) {
     console.log(event)
-    if(event.keyCode == 13) {
+    if (event.keyCode == 13) {
       this.perguntar()
       return false
     }
@@ -51,8 +51,17 @@ export class JanelaChatbotComponent implements OnInit {
       console.log(resposta)
       this.respostaChatbot.push(resposta)
       this.iniciarForm()
+      this.scrollToBottom();
     })
 
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      const conent = document.querySelector('#msg');
+      console.log(conent)
+      conent.scrollTop = conent.scrollHeight
+    }, 100);
   }
 
 }
