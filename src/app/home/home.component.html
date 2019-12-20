@@ -38,8 +38,9 @@
           <div align="center" style="height: 300px;">
             <input type="hidden" id="code_user">
             <input type="hidden" id="code_current" value="0">
-            <select class="form-control" id="code_relation">
+            <select class="form-control" *ngIf="listaRespostas.length" (change)="relacionando($event)">
               <option value="0">Relação com Resposta Anterior</option>
+              <option *ngFor="let item of listaRespostas">{{ item.input }}</option>
             </select>
             <br>
             <input type="text" class="form-control" formControlName="input" placeholder="Pergunta"><br>

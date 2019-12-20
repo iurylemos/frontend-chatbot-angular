@@ -82,6 +82,22 @@ export class HomeComponent implements OnInit {
 
   get f() { return this.chatbotForm.controls; }
 
+  
+  relacionando(event) {
+    console.log(event.target.value)
+    if(event.target.value) {
+      let list = this.listaRespostas.filter(d => d.input === event.target.value)
+      console.log(list)
+
+      for (let index = 0; index < list.length; index++) {
+        const element = list[index];
+        this.code_relation = element.code_current
+      }
+
+      console.log(this.code_relation)
+    }
+  }
+
   salvar() {
     console.log(this.authenticationService.currentUserValue)
     const code_user = this.authenticationService.currentUserValue.code_user
@@ -91,15 +107,29 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    console.log('CODE_RELATION',this.code_relation)
+
     
 
     if (this.code_current === '') {
 
-      let objJSON = {
-        "code_user": code_user,
-        "activate": activate,
-        "input": this.f.input.value,
-        "output": this.f.output.value
+      let objJSON = {}
+
+      if(this.code_relation !== '') {
+        objJSON = {
+          "code_relation": this.code_relation,
+          "code_user": code_user,
+          "activate": activate,
+          "input": this.f.input.value,
+          "output": this.f.output.value
+        }
+      }else {
+        objJSON = {        
+          "code_user": code_user,
+          "activate": activate,
+          "input": this.f.input.value,
+          "output": this.f.output.value
+        }
       }
 
       this.chatbotService.insertData(objJSON).subscribe((resposta) => {
@@ -108,12 +138,25 @@ export class HomeComponent implements OnInit {
       })
     }else {
 
-      let objJSON = {
-        "code_current": this.code_current,
-        "code_user": code_user,
-        "activate": activate,
-        "input": this.f.input.value,
-        "output": this.f.output.value
+      let objJSON = {}
+
+      if(this.code_relation !== '') {
+        objJSON = {
+          "code_relation": this.code_relation,
+          "code_current": this.code_current,
+          "code_user": code_user,
+          "activate": activate,
+          "input": this.f.input.value,
+          "output": this.f.output.value
+        }
+      }else {
+        objJSON = {
+          "code_current": this.code_current,
+          "code_user": code_user,
+          "activate": activate,
+          "input": this.f.input.value,
+          "output": this.f.output.value
+        }
       }
 
       this.chatbotService.updateData(objJSON).subscribe((resposta) => {
@@ -124,6 +167,7 @@ export class HomeComponent implements OnInit {
       console.log('entrou no else')
     }
   }
+
 
   listarDocumentos() {
     console.log('entrou no listar()')
