@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  usuarioinvalido: boolean = false
   loginForm: FormGroup;
 
   constructor(
@@ -19,8 +20,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this._formBuilder.group({
-      user_name: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      user_name: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
     console.log(this.loginForm.value)
   }
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
 
 
     if (this.loginForm.invalid) {
+      this.usuarioinvalido = true
       return;
     }
 
@@ -42,31 +44,14 @@ export class LoginComponent implements OnInit {
       console.log(data)
       if(data !== null) {
         this.router.navigate([''])
+      }else {
+        this.usuarioinvalido = true
+        setTimeout(() => {
+          this.usuarioinvalido = false
+        }, 3000);
       }
     }, (error) => {
       console.log(error)
     })
-
-
-    // 	const user_name = document.getElementById('user_name').value.toString().trim();
-    // 	const password = document.getElementById('password').value.toString().trim();
-
-    // 	const http = new XMLHttpRequest();
-    // 	http.open('POST', '/user/search', true);
-    // 	http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-    // 	http.onreadystatechange = function() {
-    // 		if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-    // 			let objJSON = JSON.parse(http.responseText);
-    // 			if((objJSON.user_name==user_name)&&(objJSON.password==password)) {
-    // 				localStorage.setItem('objJSON', JSON.stringify(objJSON));
-    // 				window.location.href = `/index?user_name=${user_name}&password=${password}`;
-    // 			}else {
-    // 				window.location.href = '/login';
-    // 			}
-    // 		}
-    // 	}
-    // 	http.send(`user_name=${user_name}&password=${password}`);
-    // }
   }
 }

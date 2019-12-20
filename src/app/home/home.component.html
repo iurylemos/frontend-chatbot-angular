@@ -1,142 +1,176 @@
 <nav class="navbar navbar-expand-sm bg-info">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link text-white" type="button" (click)="abrirChatbot()">
-            Chatbot
-         </a>
-      </li>
-      <li class="nav-item">
-           <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#dlDocumentos">
-            Capturas
-         </a>
-      </li>
-      <li class="nav-item" *ngIf="isAdmin">
-           <a type="button" class="nav-link text-white" routerLink="admin">
-            Área administrativa
-         </a>
-      </li>
-      <li class="nav-item">
-        <a type="button" class="nav-link text-white" (click)="logout()">
-         Sair
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link text-white" type="button" (click)="abrirChatbot()">
+        Chatbot
       </a>
-   </li>
-    </ul>
-  </nav>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" type="button" data-toggle="modal" data-target="#dlDocumentos">
+        Capturas
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" type="button" (click)="setIncorporacao()" data-toggle="modal" data-target="#dlAPI">
+        API
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="isAdmin">
+      <a type="button" class="nav-link text-white" routerLink="admin">
+        Área administrativa
+      </a>
+    </li>
+    <li class="nav-item">
+      <a type="button" class="nav-link text-white" (click)="logout()">
+        Sair
+      </a>
+    </li>
+  </ul>
+</nav>
+<br>
+<div class="container">
+  <h2 align="center">Chatbot com JavaScript</h2>
   <br>
-  <div class="container">
-        <h2 align="center">Chatbot com JavaScript</h2>
-        <br>
-        <table width="100%" cellpadding="20px">
-            <tr>
-                <td>
-                    <form name="chatbotForm" [formGroup]="chatbotForm">
-                        <div align="center" style="height: 300px;">
-                            <input type="hidden" id="code_user">
-                            <input type="hidden" id="code_current" value="0">
-                            <select class="form-control" id="code_relation">
-                                <option value="0">Relação com Resposta Anterior</option>
-                            </select>
-                            <br>
-                            <input type="text" class="form-control" formControlName="input" placeholder="Pergunta"><br>
-                            <textarea cols="5" class="form-control" formControlName="output" placeholder="Resposta" spellcheck="false"></textarea><br>
-                            <button style="margin-right: 2px;" class="btn btn-lg btn-info" (click)="novo()">NOVO</button>
-                            <button style="margin-right: 1px;"  class="btn btn-lg btn-info" type="submit" (click)="salvar()">SALVAR</button>
-                            <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
-                        </div>	
-                    </form>     				
+  <table width="100%" cellpadding="20px">
+    <tr>
+      <td>
+        <form name="chatbotForm" [formGroup]="chatbotForm">
+          <div align="center" style="height: 300px;">
+            <input type="hidden" id="code_user">
+            <input type="hidden" id="code_current" value="0">
+            <select class="form-control" id="code_relation">
+              <option value="0">Relação com Resposta Anterior</option>
+            </select>
+            <br>
+            <input type="text" class="form-control" formControlName="input" placeholder="Pergunta"><br>
+            <textarea cols="5" class="form-control" formControlName="output" placeholder="Resposta"
+              spellcheck="false"></textarea><br>
+            <button style="margin-right: 2px;" class="btn btn-lg btn-info" (click)="novo()">NOVO</button>
+            <button style="margin-right: 1px;" class="btn btn-lg btn-info" type="submit"
+              (click)="salvar()">SALVAR</button>
+            <button class="btn btn-lg btn-danger" data-toggle="modal" data-target="#dlDeletar">DELETAR</button>
+          </div>
+        </form>
+      </td>
+      <td>
+        <div style="overflow-y:scroll; height: 300px;" *ngIf="listaRespostas.length">
+          <table class="table table-striped" width="100%">
+            <tbody id="linhas">
+              <option value="0">Relação com Resposta Anterior</option>
+              <tr *ngFor="let item of listaRespostas">
+                <td width="400px">{{ item.input }}</td>
+                <td align="center">
+                  <button class="btn btn-info" (click)="selecionar(item)">
+                    Selecionar
+                  </button>
                 </td>
-                <td>
-                    <div style="overflow-y:scroll; height: 300px;">
-                       <table class="table table-striped" width="100%">
-                           <tbody id="linhas">
-                                <option value="0">Relação com Resposta Anterior</option>
-                                <tr *ngFor="let item of listaRespostas">
-                                    <td width="400px">{{ item.input }}</td>
-                                    <td align="center">
-                                        <button class="btn btn-info"
-                                        (click)="selecionar(item)">
-                                            Selecionar
-                                        </button>
-                                    </td>
-                                </tr>
-                           </tbody>
-                       </table>   
-                   </div>  				
-                </td>
-            </tr>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </table>
 
-        <!-- DIVISÃO -->
-        <div id="dlDeletar" class="modal" role="dialog">
-            <div class="modal-dialog">
-  
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">DELEÇÃO</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <p>Confirma Deleção?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deletar()">DELETAR</button>
-                </div>
-              </div>
-  
-            </div>
-         </div>
-         <!-- DIVISÃO PARA DOCUMENTOS USUÁRIO -->
-  
-         <div id="dlDocumentos" class="modal" role="dialog">
-            <div class="modal-dialog">
-  
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Informações Capturadas</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                   <div style="overflow-y:scroll; height: 300px;">
-                      <table class="table table-striped" width="100%">
-                          <thead>
-                              <tr>
-                                  <th>Nome</th>
-                                  <th>Idade</th>
-                                  <th>Email</th>
-                                  <th>Celular</th>
-                                  <th>Telefone</th>
-                                  <th>CEP</th>
-                                  <th>Endereço</th>
-                                  <th>Bairro</th>
-                                  <th>Nº</th>
-                                  <th>CPF</th>
-                                  <th>CNPJ</th>
-                              </tr>
-                          </thead>
-                          <tbody id="documentos">
-                            <tr *ngFor="let item of listDocuments">
-                              <td nowrap="true">{{ item.nome }}</td>
-                              <td>{{ item.idade }}</td>
-                              <td>{{ item.email }}</td>
-                              <td>{{ item.celular }}</td>
-                              <td>{{ item.telefone }}</td>
-                              <td>{{ item.cep }}</td>
-                              <td nowrap="true">{{ item.endereco }}</td>
-                              <td>{{ item.bairro }}</td>
-                              <td>{{ item.numero }}</td>
-                              <td>{{ item.cpf }}</td>
-                              <td>{{ item.cnpj }}</td>
-                            </tr>
-                          </tbody>
-                      </table>   
-                  </div> 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                </div>
-              </div>
-  
-            </div>
-         </div>
+  <!-- DIVISÃO -->
+  <div id="dlDeletar" class="modal" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">DELEÇÃO</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Confirma Deleção?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deletar()">DELETAR</button>
+        </div>
+      </div>
+
+    </div>
   </div>
+  <!-- DIVISÃO PARA DOCUMENTOS USUÁRIO -->
+
+  <div id="dlDocumentos" class="modal" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Informações Capturadas</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div style="overflow-y:scroll; height: 300px;">
+            <table class="table table-striped" width="100%">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Idade</th>
+                  <th>Email</th>
+                  <th>Celular</th>
+                  <th>Telefone</th>
+                  <th>CEP</th>
+                  <th>Endereço</th>
+                  <th>Bairro</th>
+                  <th>Nº</th>
+                  <th>CPF</th>
+                  <th>CNPJ</th>
+                </tr>
+              </thead>
+              <tbody id="documentos">
+                <tr *ngFor="let item of listDocuments">
+                  <td nowrap="true">{{ item.nome }}</td>
+                  <td>{{ item.idade }}</td>
+                  <td>{{ item.email }}</td>
+                  <td>{{ item.celular }}</td>
+                  <td>{{ item.telefone }}</td>
+                  <td>{{ item.cep }}</td>
+                  <td nowrap="true">{{ item.endereco }}</td>
+                  <td>{{ item.bairro }}</td>
+                  <td>{{ item.numero }}</td>
+                  <td>{{ item.cpf }}</td>
+                  <td>{{ item.cnpj }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- MODAL API -->
+  <div id="dlAPI" class="modal" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">API</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <b>Link de Integração</b>
+          <input type="text" id="integracao" class="form-control"
+            value="http://localhost:3000/chatbot/question?code_user=[code_user]&code_before=[Código da resposta anterior]&input=[Pergunta a ser feita]">
+          <br>
+          <b>Código de Incorporação</b>
+          <div id="incorporacao">{{ innerText }}</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- MODAL API -->
+</div>

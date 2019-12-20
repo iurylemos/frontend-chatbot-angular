@@ -14,11 +14,20 @@
     <center>
         <div align="center" style="width: 30%;">
             <form class="form-signin" name="loginForm" [formGroup]="loginForm" (ngSubmit)="entrar()">
-                <input type="text" class="form-control" id="user_name" formControlName="user_name" placeholder="Nome de Usuário"><br>
-                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Senha"><br>
+                 <!-- <label *ngIf="loginForm.get('user_name').hasError('required')" class="col-sm-0 col-form-label text-danger">Usuário invalido</label> -->
+                <input type="text" class="form-control" id="user_name" formControlName="user_name"
+                    placeholder="Nome de Usuário"><br>
+                <!-- <label *ngIf="loginForm.get('password').hasError('required')" class="col-sm-0 col-form-label text-danger">Senha invalida</label> -->
+                <input type="password" class="form-control" id="password" formControlName="password"
+                    placeholder="Senha"><br>
                 <br>
-                <button class="btn btn-lg btn-info" type="submit">Entrar</button>
+                <button class="btn btn-lg btn-info" type="submit" [disabled]="loginForm.invalid">Entrar</button>
             </form>
         </div>
     </center>
+    <br>
+    <div class="alert alert-danger alert-dismissible" id="alert" *ngIf="usuarioinvalido">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Acesso NEGADO!</strong> Usuário e/ou senha incorreto(s).
+    </div>
 </div>

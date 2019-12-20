@@ -11,6 +11,7 @@ import { ChatbotService } from '../guards/chatbot.service';
 })
 export class HomeComponent implements OnInit {
 
+  innerText: string = ''
   chatbotForm: FormGroup;
   isAdmin: boolean = false
   code_current: string = '';
@@ -179,5 +180,18 @@ export class HomeComponent implements OnInit {
       })
     }
 
+  }
+
+  setIncorporacao() {
+
+    this.innerText = 
+    `
+		         <a href="#"
+		         onclick="window.open('http://localhost:3000/chatbot?code_user=[code_user]', 
+		         					  '',
+		         					  'width=410,height=450')">
+		         	Chatbot
+		     	 </a>
+	  `;
   }
 }
