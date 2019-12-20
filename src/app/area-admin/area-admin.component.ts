@@ -15,9 +15,8 @@ export class AreaAdminComponent implements OnInit {
   arrayUser : Array<any> = []
   code_current: string = '';
   code_relation: string = '';
-  code_user: string = ''
-  noactivate: number = 0
-  activate: number = 0
+  code_user: number = 0
+  activate: boolean = false
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -37,8 +36,7 @@ export class AreaAdminComponent implements OnInit {
       user_name: ['', [Validators.required]],
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      activateF: [''],
-      activateT: [''],
+      activate: ['', [Validators.required]],
     });
     console.log(this.adminForm.value)
     console.log(this.authenticationService.currentUserValue)
@@ -53,7 +51,7 @@ export class AreaAdminComponent implements OnInit {
       "activate": activate
     }
 
-    this.adminService.findUser(objJSON).subscribe((resp) => {
+    this.adminService.findUsers().subscribe((resp) => {
       console.log(resp)
       this.arrayUser = resp
     })
@@ -71,42 +69,46 @@ export class AreaAdminComponent implements OnInit {
   }
 
   selecionar(item) {
-    console.log(item.code_user)
+    console.log(item)
 
     this.code_user = item.code_user
 
     if(item.activate > 0) {
-      this.activate = item.activate
+      this.activate = true
     }else {
-      this.noactivate = item.activate
+      this.activate = false
     }
+
+    
 
     this.adminForm = this._formBuilder.group({
       full_name: [`${item.full_name}`, [Validators.required]],
       user_name: [`${item.user_name}`, [Validators.required]],
       email: [`${item.email}`, [Validators.required]],
       password: [`${item.password}`, [Validators.required]],
-      activateF: [`${this.noactivate}`],
-      activateT: [`${this.activate}`]
+      activate: [`${this.activate}`],
     });
   }
 
   salvar() {
     console.log(this.authenticationService.currentUserValue)
     // const code_user = this.authenticationService.currentUserValue.code_user
-    const activate = this.authenticationService.currentUserValue.activate
+    // const activate = this.authenticationService.currentUserValue.activate
 
     if (this.adminForm.invalid) {
       return;
     }
 
+    console.log(this.f.activate.value)
+    console.log(this.code_user)
+
     
 
-    if (this.code_user === '') {
+    if (this.code_user === 0) {
 
       let objJSON = {
         "code_user": this.code_user,
-        "activate": activate,
+        "activate": this.f.activate.value,
         "full_name": this.f.full_name.value,
         "user_name": this.f.user_name.value,
         "email": this.f.email.value,
@@ -121,7 +123,7 @@ export class AreaAdminComponent implements OnInit {
 
       let objJSON = {
         "code_user": this.code_user,
-        "activate": activate,
+        "activate": this.f.activate.value,
         "full_name": this.f.full_name.value,
         "user_name": this.f.user_name.value,
         "email": this.f.email.value,
