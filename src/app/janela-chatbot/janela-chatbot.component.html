@@ -26,7 +26,8 @@
             <div *ngFor="let arrayItens of respostaChatbot" >
                 <div class="talk-bubble tri-right right-top" style="width: 90%; background-color: #8000ff;">
                     <div class="talktext" *ngFor="let item of arrayItens">
-                        <p>{{item.input}}</p>
+                        <p *ngIf="item.input !== 'respostaqualquer'">{{item.input}}</p>
+                        <p *ngIf="item.input === 'respostaqualquer'">{{ perguntaUser }}</p>
                     </div>
                 </div>
                 <div class="talk-bubble tri-right left-top" style="width: 90%; background-color: #00aabb;">

@@ -195,6 +195,8 @@ export class HomeComponent implements OnInit {
   }
 
   novo() {
+    this.code_relation = ''
+    this.code_current = ''
     this.iniciarForm()
   }
 
