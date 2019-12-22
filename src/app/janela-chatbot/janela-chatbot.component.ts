@@ -66,48 +66,49 @@ export class JanelaChatbotComponent implements OnInit {
         for (let index = 0; index < resposta.length; index++) {
           const element = resposta[index];
 
-          this.code_relation = element.code_relation
-          
+          this.code_relation = Number(element.code_relation)
+
+        }
+      }
+
+      if (this.code_relation > 0) {
+
+        for (let index = 0; index < ultimaPosicao.length; index++) {
+          this.arrayUltima = ultimaPosicao[index];
         }
 
-        if(this.code_relation > 0) {
+        for (let index = 0; index < this.arrayUltima.length; index++) {
+          const element = this.arrayUltima[index];
+          this.code_ultima = Number(element.code_current)
 
-          for (let index = 0; index < ultimaPosicao.length; index++) {
-            this.arrayUltima = ultimaPosicao[index];
-          }
-  
-          for (let index = 0; index < this.arrayUltima.length; index++) {
-            const element = this.arrayUltima[index];
-            this.code_ultima = element.code_current
-  
-            console.log(this.code_ultima)
-          }
+          console.log(this.code_ultima)
+        }
 
-          const filter = resposta.filter(filter => filter.code_relation === this.code_ultima)
-          console.log(filter)
+        const filter = resposta.filter(filter => filter.code_relation === this.code_ultima)
+        //Verificar se a ultima resposta corresponde a pergunta anterior
+        console.log('FILTRO DE VERIFICAÇÃO',filter)
 
-          if(filter.length) {
-            this.respostaChatbot.push(resposta)
-            this.iniciarForm()
-            this.scrollToBottom();
-          }else {
-
-            this.perguntaUser = this.f.input.value
-
-            this.chatbotService.conversarChatbot(code_user, "respostaqualquer").then((resposta) => {
-              
-              this.respostaChatbot.push(resposta)
-              this.iniciarForm()
-              this.scrollToBottom();
-            })
-
-          }
-
-        }else {
+        if (filter.length) {
           this.respostaChatbot.push(resposta)
           this.iniciarForm()
           this.scrollToBottom();
+        } else {
+
+          this.perguntaUser = this.f.input.value
+
+          this.chatbotService.conversarChatbot(code_user, "respostaqualquer").then((resposta) => {
+
+            this.respostaChatbot.push(resposta)
+            this.iniciarForm()
+            this.scrollToBottom();
+          })
+
         }
+
+      } else {
+        this.respostaChatbot.push(resposta)
+        this.iniciarForm()
+        this.scrollToBottom();
       }
 
     })
