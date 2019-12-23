@@ -73,6 +73,38 @@
     </tr>
   </table>
 
+  <!-- PARTE DE INTERAÇÃO DOS NÓS -->
+  <nav id="navbar-example3" class="navbar navbar-light bg-light">
+    <nav class="nav nav-pills flex-column" *ngIf="listaRespostas.length">
+      <div *ngFor="let item of listaRespostas">
+        <a class="nav-link text-dark" type="button" (click)="selecionar(item)">{{ item.input }}</a>
+        <nav class="nav nav-pills flex-column" *ngFor="let subDocument of listSubDocuments">
+          <div *ngIf="item.code_current === subDocument.code_relation">
+            <a class="nav-link ml-3 my-1 text-info" type="button" (click)="selecionar(subDocument)">{{ subDocument.input }}</a>
+          </div>
+        </nav>
+      </div>
+    </nav>
+  </nav>
+
+  <div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+    <h4 id="item-1">Item 1</h4>
+    <p>...</p>
+    <h5 id="item-1-1">Item 1-1</h5>
+    <p>...</p>
+    <h5 id="item-1-2">Item 2-2</h5>
+    <p>...</p>
+    <h4 id="item-2">Item 2</h4>
+    <p>...</p>
+    <h4 id="item-3">Item 3</h4>
+    <p>...</p>
+    <h5 id="item-3-1">Item 3-1</h5>
+    <p>...</p>
+    <h5 id="item-3-2">Item 3-2</h5>
+    <p>...</p>
+  </div>
+  <!-- PARTE DE INTERAÇÃO DOS NÓS -->
+
   <!-- DIVISÃO -->
   <div id="dlDeletar" class="modal" role="dialog">
     <div class="modal-dialog">

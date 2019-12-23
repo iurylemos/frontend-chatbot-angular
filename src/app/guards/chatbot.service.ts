@@ -10,11 +10,11 @@ export class ChatbotService {
 
     constructor(private http: HttpClient) { }
 
-    public findChatbot(objJSON: any): Observable<any> {
+    public findChatbot(objJSON: any): Observable<any[]> {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
         return this.http.post(`${URL_API}/chatbot/find`, objJSON, { headers: headers }).pipe(
-            map((resposta: any) => {
+            map((resposta: any[]) => {
                 return resposta
             })
         );
@@ -53,12 +53,12 @@ export class ChatbotService {
         );
     }
 
-    public findDocuments(objJSON: any): Observable<any> {
+    public findDocuments(objJSON: any): Observable<any[]> {
         console.log(objJSON)
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
         return this.http.post(`${URL_API}/documents/find`, objJSON, { headers: headers }).pipe(
-            map((resposta: any) => {
+            map((resposta: any[]) => {
                 return resposta
             })
         );

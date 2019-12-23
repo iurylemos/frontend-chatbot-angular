@@ -14,10 +14,11 @@ export class HomeComponent implements OnInit {
   innerText: string = ''
   chatbotForm: FormGroup;
   isAdmin: boolean = false
-  code_current: string = '';
-  code_relation: string = '';
+  code_current: number = 0;
+  code_relation: number= 0;
   listaRespostas: Array<any> = []
   listDocuments: Array<any> = []
+  listSubDocuments: Array<any> = []
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -57,7 +58,21 @@ export class HomeComponent implements OnInit {
     if(code_user !== 0) {
       this.chatbotService.findChatbot(objJSON).subscribe((data) => {
         console.log(data)
-        this.listaRespostas = data
+
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          console.log('ELEMENT',element)
+
+          if(element.code_relation > 0) {
+            this.listSubDocuments.push(element)
+          }else {
+            this.listaRespostas.push(element)
+          }
+        }
+
+        console.log('LISTA RESPOSTA',this.listaRespostas)
+        console.log('SUB RESPOSTA', this.listSubDocuments)
+
       })
     }
 
@@ -70,7 +85,11 @@ export class HomeComponent implements OnInit {
   }
 
   selecionar(item) {
-    console.log(item.code_current)
+    console.log(item)
+
+    if(item.code_relation > 0) {
+      this.code_relation = item.code_relation
+    }
 
     this.code_current = item.code_current
 
@@ -111,11 +130,11 @@ export class HomeComponent implements OnInit {
 
     
 
-    if (this.code_current === '') {
+    if (this.code_current === 0) {
 
       let objJSON = {}
 
-      if(this.code_relation !== '') {
+      if(this.code_relation !== 0) {
         objJSON = {
           "code_relation": this.code_relation,
           "code_user": code_user,
@@ -140,7 +159,7 @@ export class HomeComponent implements OnInit {
 
       let objJSON = {}
 
-      if(this.code_relation !== '') {
+      if(this.code_relation !== 0) {
         objJSON = {
           "code_relation": this.code_relation,
           "code_current": this.code_current,
@@ -182,8 +201,15 @@ export class HomeComponent implements OnInit {
     if(code_user !== 0) {
       this.chatbotService.findDocuments(objJSON).subscribe((data) => {  
         console.log(data)
+        
         this.listDocuments = data
         console.log(this.listDocuments)
+
+
+
+
+
+
       })
     }
 
@@ -195,8 +221,8 @@ export class HomeComponent implements OnInit {
   }
 
   novo() {
-    this.code_relation = ''
-    this.code_current = ''
+    this.code_relation = 0
+    this.code_current = 0
     this.iniciarForm()
   }
 
@@ -209,7 +235,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    if (this.code_current !== '') {
+    if (this.code_current !== 0) {
       let objJSON = {
         "code_current": this.code_current,
         "code_user": code_user,
@@ -221,7 +247,7 @@ export class HomeComponent implements OnInit {
       this.chatbotService.deleteData(objJSON).subscribe((resposta) => {
         console.log(resposta)
         this.listar()
-        this.code_current = ''
+        this.code_current = 0
         this.iniciarForm()
       })
     }
